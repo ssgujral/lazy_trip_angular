@@ -1,1 +1,3 @@
-flight-booking-frontend/node_modules/*
+flight-booking-frontend/node_modules/karma-jasmine-html-reporter/**
+
+flight-booking-frontend/node_modules/void-elements/**

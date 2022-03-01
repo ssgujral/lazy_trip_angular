@@ -1,0 +1,78 @@
+<h1><strong>Find flight deals around the world</strong></h1>
+    <hr>
+    <form>
+            <div *ngIf="fromLocationTemplate">
+                <label for=""><h3>From where:</h3></label>
+                <input type="text" class="form-control" name="from" [(ngModel)]="from"     (keypress)="handleFromLocation()">
+                <small>City or Airport search E.g. London</small>
+                <div class="card mb-3 mt-3" *ngFor="let Location of fromLocation" (click)="handleOrigin(Location)">
+                    <div class="card-header"><b>Name:</b> {{ Location.name }}</div>
+                    <div class="card-body">City Name: {{ Location.address.cityName }}
+                        <br>
+                        Country Name: {{ Location.address.countryName }}
+                    </div>
+                    <div class="card-footer"><b>SubType:</b> {{ Location.subType }}</div>
+                  </div>
+            </div>
+
+
+            <div *ngIf="toLocationTemplate">
+              <label for=""><h3>To where:</h3></label>
+              <input type="text" class="form-control" name="to" [(ngModel)]="to" (keypress)="handleToLocation()">
+              <small>City or Airport search E.g. New york</small>
+              <div class="card mb-3 mt-3" *ngFor="let Location of toLocation" (click)="handleDestination(Location)">
+                  <div class="card-header"><b>Name:</b> {{ Location.name }}</div>
+                  <div class="card-body">City Name: {{ Location.address.cityName }}
+                      <br>
+                      Country Name: {{ Location.address.countryName }}
+                  </div>
+                  <div class="card-footer"><b>SubType:</b> {{ Location.subType }}</div>
+             </div>
+</div>
+
+
+<div *ngIf="departureDateTemplate">
+  <label for=""><h3>Departure Date:</h3></label>
+  <input type="date" class="form-control" name="date" [(ngModel)]="date">
+  <br>
+  <button class="btn btn-secondary" (click)="onFindFlight()" [ngStyle]="{'width': '100%'}">Find Flights</button>
+</div>
+
+
+<div *ngIf="flightTemplate">
+  <h3>Flight Offers:</h3>
+  <div class="card mb-3 mt-3" *ngFor="let flight of flights">
+          <div class="card-header"><b>Price:</b> {{ flight.price.total }} ({{ flight.price.currency }})</div>
+          <div class="card-body">
+              Number of Seats Available: {{ flight.numberOfBookableSeats }}
+              <br>
+              Last Ticketing Date: {{ flight.lastTicketingDate }}
+              <hr>
+              <h5>Itineraries</h5>
+              Duration: {{ flight.itineraries[0].duration }}
+              <p *ngFor="let i of flight.itineraries[0].segments">
+                  <strong>Departure:</strong> {{ i.departure.iataCode }} <strong>at</strong> {{ i.departure.at }}
+                  <em>(Terminal: {{ i.departure.terminal }})</em>
+                  &nbsp;
+                  <strong>Arrival:</strong> {{ i.arrival.iataCode }} <strong>at</strong> {{ i.arrival.at }}
+                  <em>(Terminal: {{ i.arrival.terminal }})</em>
+                  &nbsp;
+                  <strong>Number of stops:</strong> {{ i.numberOfStops }}
+              </p>
+              <hr>
+              <h5>Enter your details:</h5>
+              <input type="text" name="first" placeholder="Your first Name" [(ngModel)]="first" class="form-control">
+              <br>
+              <input type="text" name="last" placeholder="Your Last Name" [(ngModel)]="last" class="form-control">
+          </div>
+          <div class="card-footer"><button class="btn btn-warning" (click)="onBookFlight(flight)" [ngStyle]="{'width': '100%'}">Book Flight</button></div>
+    </div>
+</div>
+<div *ngIf="booked">
+  <div class="alert alert-success" role="alert">
+      Successfully Booked the flight
+    </div>
+</div>
+
+
+    </form>
